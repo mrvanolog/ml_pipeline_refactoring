@@ -5,4 +5,4 @@ max-doc-length = 120
 statistics = true
 doctests = true
 docstring-convention = numpy
-ignore = D100, D101, D102, D103, D104, D105, D401, W503
+ignore = D100, D101, D102, D103, D104, D105, D401, W503, E252
