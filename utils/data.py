@@ -1,30 +1,32 @@
 import os
+from typing import Tuple
 
 import pandas as pd
 
 
-def reader(partition, data_path):
+def reader(partition: str, data_path: str) -> Tuple[pd.Series]:
     data = []
     for file_name in os.listdir(os.path.join(data_path, partition)):
         with open(os.path.join(data_path, partition, file_name)) as file:
-            data.append(pd.read_csv(file, index_col=None, usecols=["sequence", "family_accession"]))
+            data.append(pd.read_csv(file, index_col=None, usecols=['sequence', 'family_accession']))
 
     all_data = pd.concat(data)
 
-    return all_data["sequence"], all_data["family_accession"]
+    return all_data['sequence'], all_data['family_accession']
 
 
-def build_labels(targets):
+def build_labels(targets: pd.Series, verbose: bool=False) -> dict:
     unique_targets = targets.unique()
     fam2label = {target: i for i, target in enumerate(unique_targets, start=1)}
     fam2label['<unk>'] = 0
 
-    print(f"There are {len(fam2label)} labels.")
+    if verbose:
+        print(f'There are {len(fam2label)} labels.')
 
     return fam2label
 
 
-def build_vocab(data):
+def build_vocab(data: pd.Series) -> dict:
     # Build the vocabulary
     voc = set()
     rare_AAs = {'X', 'U', 'B', 'O', 'Z'}
