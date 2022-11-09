@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# MacOS
+.DS_Store
+
+# Repo specific
+/lightning_logs
+/.vscode
+/random_split
+requirements_colab.txt
