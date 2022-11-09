@@ -1,5 +1,6 @@
 import os
-from typing import Tuple
+import pickle
+from typing import Any, Tuple
 
 import pandas as pd
 
@@ -41,3 +42,17 @@ def build_vocab(data: pd.Series) -> dict:
     word2id['<unk>'] = 1
 
     return word2id
+
+
+def save_object(obj: Any, filename: str):
+    """Saves ant object to a pickle file.
+
+    Parameters
+    ----------
+    obj : Any
+        Any Python object
+    filename : str
+        File path, must have '.pkl' extention
+    """
+    with open(filename, 'wb') as outp:
+        pickle.dump(obj, outp, pickle.HIGHEST_PROTOCOL)
