@@ -5,15 +5,6 @@ import torchmetrics
 from torch import nn
 
 
-class Lambda(nn.Module):
-    def __init__(self, func):
-        super().__init__()
-        self.func = func
-
-    def forward(self, x):
-        return self.func(x)
-
-
 class ResidualBlock(nn.Module):
     """
     The residual block used by ProtCNN (https://www.biorxiv.org/content/10.1101/626507v3.full).
@@ -55,7 +46,7 @@ class ProtCNN(pl.LightningModule):
             ResidualBlock(128, 128, dilation=2),
             ResidualBlock(128, 128, dilation=3),
             torch.nn.MaxPool1d(3, stride=2, padding=1),
-            Lambda(lambda x: x.flatten(start_dim=1)),
+            nn.Flatten(start_dim=1),
             torch.nn.Linear(7680, num_classes)
         )
 
