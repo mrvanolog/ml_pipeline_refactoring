@@ -12,6 +12,9 @@ def main():
         operator = load_object(OPERATOR_PATH)
     except FileNotFoundError:
         operator = Operator()
+    except EOFError:
+        print('error: pfam model file is damaged, please delete it or initialize a new model')
+        operator = Operator()
 
     parser = get_parser(operator)
 
