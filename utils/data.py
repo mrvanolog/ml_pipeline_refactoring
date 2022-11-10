@@ -45,7 +45,7 @@ def build_vocab(data: pd.Series) -> dict:
 
 
 def save_object(obj: Any, filename: str):
-    """Saves ant object to a pickle file.
+    """Saves an object to a pickle file.
 
     Parameters
     ----------
@@ -54,5 +54,19 @@ def save_object(obj: Any, filename: str):
     filename : str
         File path, must have '.pkl' extention
     """
-    with open(filename, 'wb') as outp:
-        pickle.dump(obj, outp, pickle.HIGHEST_PROTOCOL)
+    with open(filename, 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+
+def load_object(filename: str) -> Any:
+    """Loads ant object from a pickle file.
+
+    Parameters
+    ----------
+    filename : str
+        File path, must have '.pkl' extention
+    """
+    with open(filename, 'rb') as f:
+        obj = pickle.load(f)
+
+    return obj
