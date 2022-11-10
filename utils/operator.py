@@ -102,12 +102,12 @@ class Operator():
 
         self.train_status = True
 
-    def test(self, verbose: bool=False, **kwargs):
+    def validate(self, verbose: bool=False, **kwargs):
         if not self.train_status:
-            print('error: pfam must be trained before testing, use <pfam train>')
+            print('error: pfam must be trained before validation, use <pfam train>')
             return
 
-        self.trainer.test(self.prot_cnn, self.dataloaders['test'], verbose=verbose)
+        self.trainer.validate(self.prot_cnn, self.dataloaders['dev'], verbose=verbose)
 
     def predict(self, verbose: bool=False, **kwargs):
         if not self.train_status:

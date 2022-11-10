@@ -34,8 +34,8 @@ def get_parser(operator: pl.LightningModule) -> argparse.ArgumentParser:
     parser_train.set_defaults(func=operator.train, cmd='init')
 
     # subparser for test command
-    parser_train = subparsers.add_parser('test', help='test pfam model performance')
-    parser_train.set_defaults(func=operator.test, cmd='test')
+    parser_train = subparsers.add_parser('validate', help='validate pfam model performance')
+    parser_train.set_defaults(func=operator.validate, cmd='validate')
 
     # subparser for del command
     parser_train = subparsers.add_parser('del', help='delete pfam model and datasets')
