@@ -12,7 +12,7 @@ def get_parser(operator: pl.LightningModule) -> argparse.ArgumentParser:
         Operator class instance
     """
     parser = argparse.ArgumentParser(prog='pfam', description='Operate the pfam model')
-    parser.add_argument('-v', '--verbose', action='store_true', help='turns verbosity on')
+    parser.add_argument('-v', '--verbose', action='store_true', help='turn verbosity on')
     subparsers = parser.add_subparsers()
 
     # subparser for init command

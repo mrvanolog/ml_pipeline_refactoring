@@ -4,7 +4,7 @@ from utils.data import load_object, save_object
 from utils.operator import Operator
 from utils.parser import get_parser
 
-OPERATOR_PATH = 'operator.pkl'
+OPERATOR_PATH = os.environ.get('OPERATOR_PATH', default='operator.pkl')
 
 
 def main():
