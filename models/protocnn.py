@@ -73,7 +73,8 @@ class ProtCNN(pl.LightningModule):
         y_hat = self(x)
         pred = torch.argmax(y_hat, dim=1)
         acc = self.valid_acc(pred, y)
-        self.log('valid_acc', self.valid_acc, on_step=False, on_epoch=True)
+        self.log('valid_acc', self.valid_acc,
+                 metric_attribute='valid_acc', on_step=False, on_epoch=True)
 
         return acc
 
