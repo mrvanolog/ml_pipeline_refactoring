@@ -136,3 +136,4 @@ dmypy.json
 /.vscode
 /random_split
 requirements_colab.txt
+*.pkl
