@@ -6,16 +6,18 @@ from torch import nn
 
 
 class ResidualBlock(nn.Module):
-    """
-    The residual block used by ProtCNN (https://www.biorxiv.org/content/10.1101/626507v3.full).
+    """The residual block used by ProtCNN (https://www.biorxiv.org/content/10.1101/626507v3.full).
 
-    Args:
-        in_channels: The number of channels (feature maps) of the incoming embedding
-        out_channels: The number of channels after the first convolution
-        dilation: Dilation rate of the first convolution
+        Parameters
+        ----------
+        in_channels : int
+            The number of channels (feature maps) of the incoming embedding
+        out_channels : int
+            The number of channels after the first convolution
+        dilation : int, optional
+            Dilation rate of the first convolution, by default 1
     """
-
-    def __init__(self, in_channels, out_channels, dilation=1):
+    def __init__(self, in_channels: int, out_channels: int, dilation: int=1):
         super().__init__()
 
         # Initialize the required layers
@@ -38,8 +40,14 @@ class ResidualBlock(nn.Module):
 
 
 class ProtCNN(pl.LightningModule):
+    """ProtCNN model (https://www.biorxiv.org/content/10.1101/626507v3.full).
 
-    def __init__(self, num_classes):
+        Parameters
+        ----------
+        num_classes : int
+            Number of unique classes
+    """
+    def __init__(self, num_classes: int):
         super().__init__()
         self.model = torch.nn.Sequential(
             torch.nn.Conv1d(22, 128, kernel_size=1, padding=0, bias=False),
@@ -57,6 +65,8 @@ class ProtCNN(pl.LightningModule):
         return self.model(x.float())
 
     def training_step(self, batch, batch_idx):
+        """Method that defines one training step for pytorch lightning.
+        """
         x, y = batch['sequence'], batch['target']
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
@@ -69,6 +79,8 @@ class ProtCNN(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
+        """Method that defines one validation step for pytorch lightning.
+        """
         x, y = batch['sequence'], batch['target']
         y_hat = self(x)
         pred = torch.argmax(y_hat, dim=1)
@@ -79,6 +91,8 @@ class ProtCNN(pl.LightningModule):
         return acc
 
     def configure_optimizers(self):
+        """Method that defines optimizer configuration for pytorch lightning.
+        """
         optimizer = torch.optim.SGD(self.parameters(), lr=1e-2, momentum=0.9, weight_decay=1e-2)
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(
             optimizer, milestones=[5, 8, 10, 12, 14, 16, 18, 20], gamma=0.9
