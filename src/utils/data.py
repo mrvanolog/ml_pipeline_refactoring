@@ -99,7 +99,7 @@ def save_object(obj: Any, filename: str):
 
 
 def load_object(filename: str) -> Any:
-    """Loads ant object from a pickle file.
+    """Loads an object from a pickle file.
 
     Parameters
     ----------
