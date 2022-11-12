@@ -6,8 +6,22 @@ from utils.data import reader
 
 
 class SequenceDataset(data.Dataset):
+    """Dataset class for protein domains data.
 
-    def __init__(self, word2id, fam2label, max_len, data_path, split):
+        Parameters
+        ----------
+        word2id : dict
+            Dictionary with unique ids for each amino acid
+        fam2label : dict
+            Dictionary with unique family accession labels and corresponding ids
+        max_len : int
+            Maximum length of a sqeuence
+        data_path : str
+            Path to the folder with data
+        split : str
+            Type of data, options are: train, dev or test
+    """
+    def __init__(self, word2id: dict, fam2label: dict, max_len: int, data_path: str, split: str):
         self.word2id = word2id
         self.fam2label = fam2label
         self.max_len = max_len
@@ -17,13 +31,15 @@ class SequenceDataset(data.Dataset):
     def __len__(self):
         return len(self.data)
 
-    def __getitem__(self, index):
-        seq = self.preprocess(self.data.iloc[index])
+    def __getitem__(self, index: int):
+        seq = self._preprocess(self.data.iloc[index])
         label = self.fam2label.get(self.label.iloc[index], self.fam2label['<unk>'])
 
         return {'sequence': seq, 'target': label}
 
-    def preprocess(self, text):
+    def _preprocess(self, text: str):
+        """Preprocess the input features.
+        """
         seq = []
 
         # Encode into IDs
