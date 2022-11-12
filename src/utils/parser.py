@@ -31,7 +31,7 @@ def get_parser(operator: pl.LightningModule) -> argparse.ArgumentParser:
                               help='number of gpu cores to use', required=True)
     parser_train.add_argument('-e', '--epochs', type=int,
                               help='number of epochs to train the model for', required=True)
-    parser_train.set_defaults(func=operator.train, cmd='init')
+    parser_train.set_defaults(func=operator.train, cmd='train')
 
     # subparser for validate command
     parser_train = subparsers.add_parser('validate', help='validate pfam model performance')
