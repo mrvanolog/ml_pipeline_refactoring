@@ -39,11 +39,25 @@ class Operator():
 
     def init(self, seq_max_len: int, batch_size: int,
              num_workers: int, verbose: bool=False, **kwargs):
+        """Initializes the model and datasets.
+
+        Parameters
+        ----------
+        seq_max_len : int
+            Maximum length of a sequence
+        batch_size : int
+            Size of a training/eval batch
+        num_workers : int
+            Number of workers for parallel calculations
+        verbose : bool, optional
+            If True will display information, by default False
+        """
         # set hyperparameters
         self.seq_max_len = seq_max_len
         self.batch_size = batch_size
         self.num_workers = num_workers
 
+        # read data and create dictionaries for labels and input features
         self.train_data, self.train_targets = reader('train', self.data_dir)
         self.fam2label = build_labels(self.train_targets)
         self.word2id = build_vocab(self.train_data)
@@ -51,6 +65,7 @@ class Operator():
         if verbose:
             print(f'AA dictionary formed. The length of dictionary is: {len(self.word2id)}.')
 
+        # create datasets
         self.train_dataset = SequenceDataset(self.word2id, self.fam2label,
                                              seq_max_len, self.data_dir, 'train')
         self.dev_dataset = SequenceDataset(self.word2id, self.fam2label,
@@ -60,6 +75,7 @@ class Operator():
         if verbose:
             print('Datasets created')
 
+        # create dataloaders
         self.dataloaders = {}
         self.dataloaders['train'] = data.DataLoader(
             self.train_dataset,
@@ -87,6 +103,15 @@ class Operator():
             print('Initialization complete')
 
     def train(self, gpus: int, epochs: int, **kwargs):
+        """Trains the model.
+
+        Parameters
+        ----------
+        gpus : int
+            Number of GPUs available
+        epochs : int
+            Number of epochs to train the model for
+        """
         if not self.init_status:
             print('error: pfam must be initialized before training, use <pfam init>')
             return
@@ -103,6 +128,13 @@ class Operator():
         self.train_status = True
 
     def validate(self, verbose: bool=False, **kwargs):
+        """Validate the model.
+
+        Parameters
+        ----------
+        verbose : bool, optional
+            If True will display information, by default False
+        """
         if not self.train_status:
             print('error: pfam must be trained before validation, use <pfam train>')
             return
@@ -110,6 +142,13 @@ class Operator():
         self.trainer.validate(self.prot_cnn, self.dataloaders['dev'], verbose=verbose)
 
     def predict(self, verbose: bool=False, **kwargs):
+        """Predict for the unseen data.
+
+        Parameters
+        ----------
+        verbose : bool, optional
+            If True will display information, by default False
+        """
         if not self.train_status:
             print('error: pfam must be trained before running inference, use <pfam train>')
             return
