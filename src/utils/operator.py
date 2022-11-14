@@ -140,15 +140,3 @@ class Operator():
             return
 
         self.trainer.validate(self.prot_cnn, self.dataloaders['dev'], verbose=verbose)
-
-    def predict(self, verbose: bool=False, **kwargs):
-        """Predict for the unseen data.
-
-        Parameters
-        ----------
-        verbose : bool, optional
-            If True will display information, by default False
-        """
-        if not self.train_status:
-            print('error: pfam must be trained before running inference, use <pfam train>')
-            return
