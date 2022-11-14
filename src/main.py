@@ -17,10 +17,14 @@ def main():
         operator = Operator()
 
     parser = get_parser(operator)
-
     args = parser.parse_args()
-    args.func(**vars(args))
 
+    if len(vars(args)) == 1:
+        print('usage: pfam [-h] [-v] {init,train,validate,predict,del} ...')
+        print('pfam: error: no arguments have been passed')
+        return
+
+    args.func(**vars(args))
     if args.cmd == 'del':
         if os.path.exists(OPERATOR_PATH):
             os.remove(OPERATOR_PATH)
