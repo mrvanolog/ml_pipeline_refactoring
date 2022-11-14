@@ -1,6 +1,6 @@
 # ML Pipeline Refactoring
 
-This repository contains ProtoCNN model that predicts the function of protein domains, based on the [PFam dataset](https://www.kaggle.com/datasets/googleai/pfam-seed-random-split). The repository also includes utility functions that handle the data, CLI input, tests and Dockerfile that builds local environment.
+This repository contains the refactored code for ProtoCNN model that predicts the function of protein domains, based on the [PFam dataset](https://www.kaggle.com/datasets/googleai/pfam-seed-random-split). The repository also includes utility functions that handle the data, CLI input, tests and Dockerfile that builds local environment. The code before refactoring can be seen in `ml-pipeline-refactoring.ipynb`.
 
 ## Docker commands
 
